@@ -1,0 +1,37 @@
+formatter: "markdown table"
+
+header-from: main.tf
+footer-from: ""
+
+recursive:
+  enabled: false
+
+sections:
+  hide: ["providers"]
+
+output:
+  file: "README.md"
+  mode: inject
+  template: |-
+    <!-- BEGIN_TF_DOCS -->
+    {{ .Content }}
+    <!-- END_TF_DOCS -->
+
+output-values:
+  enabled: false
+  from: ""
+
+sort:
+  enabled: true
+  by: required
+
+settings:
+  anchor: true
+  default: true
+  escape: false
+  hide-empty: true
+  html: false
+  indent: 2
+  required: true
+  sensitive: true
+  type: true
