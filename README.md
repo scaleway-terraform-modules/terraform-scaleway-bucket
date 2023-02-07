@@ -47,8 +47,8 @@ module "my_bucket" {
 
 | Name | Description |
 |------|-------------|
-| <a name="output_bucket_endpoint"></a> [bucket_endpoint](#output_bucket_endpoint) | n/a |
-| <a name="output_bucket_id"></a> [bucket_id](#output_bucket_id) | n/a |
+| <a name="output_bucket_endpoint"></a> [bucket_endpoint](#output_bucket_endpoint) | Endpoint URL of the bucket. |
+| <a name="output_bucket_id"></a> [bucket_id](#output_bucket_id) | Unique name of the bucket. |
 <!-- END_TF_DOCS -->
 
 ## Authors
