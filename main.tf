@@ -3,6 +3,9 @@ resource "scaleway_object_bucket" "this" {
   name                = var.name
   object_lock_enabled = var.versioning_enabled
 
+  region     = var.region
+  project_id = var.project_id
+
   versioning {
     enabled = var.versioning_enabled
   }
@@ -11,7 +14,8 @@ resource "scaleway_object_bucket" "this" {
 resource "scaleway_object_bucket_lock_configuration" "this" {
   count = var.versioning_enabled ? 1 : 0
 
-  bucket = scaleway_object_bucket.this.name
+  bucket     = scaleway_object_bucket.this.name
+  project_id = var.project_id
 
   rule {
     default_retention {
