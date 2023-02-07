@@ -38,6 +38,8 @@ module "my_bucket" {
 |------|-------------|------|---------|:--------:|
 | <a name="input_name"></a> [name](#input_name) | Name of the bucket. | `string` | n/a | yes |
 | <a name="input_force_destroy"></a> [force_destroy](#input_force_destroy) | Enable deletion of objects in bucket before destroying, locked objects or under legal hold are also deleted and not recoverable. | `bool` | `false` | no |
+| <a name="input_project_id"></a> [project_id](#input_project_id) | ID of the project the bucket is associated with. If null, ressources will be created in the default project associated with the key. | `string` | `null` | no |
+| <a name="input_region"></a> [region](#input_region) | Region in which the bucket should be created. Ressource will be created in the region set at the provider level if null. | `string` | `null` | no |
 | <a name="input_versioning_enabled"></a> [versioning_enabled](#input_versioning_enabled) | Enable versioning. Once you version-enable a bucket, it can never return to an unversioned state. You can, however, suspend versioning on that bucket. | `bool` | `false` | no |
 | <a name="input_versioning_lock_configuration"></a> [versioning_lock_configuration](#input_versioning_lock_configuration) | Specifies the Object Lock rule for the bucket. Requires versioning. | ```object({ mode = string, days = optional(number), years = optional(number), })``` | ```{ "days": null, "mode": "GOVERNANCE", "years": null }``` | no |
 

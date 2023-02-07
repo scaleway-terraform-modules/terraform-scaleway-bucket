@@ -9,6 +9,18 @@ variable "name" {
   type        = string
 }
 
+variable "project_id" {
+  description = "ID of the project the bucket is associated with. If null, ressources will be created in the default project associated with the key."
+  type        = string
+  default     = null
+}
+
+variable "region" {
+  description = "Region in which the bucket should be created. Ressource will be created in the region set at the provider level if null."
+  type        = string
+  default     = null
+}
+
 variable "versioning_enabled" {
   description = "Enable versioning. Once you version-enable a bucket, it can never return to an unversioned state. You can, however, suspend versioning on that bucket."
   type        = bool
