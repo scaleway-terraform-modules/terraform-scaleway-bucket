@@ -1,0 +1,51 @@
+name: Pull Request checks
+
+on: 
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+jobs:
+  terraform-fmt:
+    name: Terraform Formatting
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+    - name: setup terraform
+      uses: hashicorp/setup-terraform@633666f66e0061ca3b725c73b2ec20cd13a8fdd1 #v2.0.3
+    - name: terraform fmt
+      run: terraform fmt -check -diff -recursive ./
+
+  terraform-validate:
+    name: Terraform config validation
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+    - name: setup terraform
+      uses: hashicorp/setup-terraform@633666f66e0061ca3b725c73b2ec20cd13a8fdd1 #v2.0.3
+    - name: terraform init
+      run: terraform init
+    - name: terraform validate
+      run: terraform validate
+
+  tflint:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+    - name: cache tflint
+      uses: actions/cache@627f0f41f6904a5b1efbaed9f96d9eb58e92e920 # v3.2.4
+      with:
+        path: ~/.tflint.d/plugins
+        key: tflint-${{ hashFiles('.tflint.hcl') }}
+    - name: setup tflint
+      uses: terraform-linters/setup-tflint@ba6bb2989f94daf58a4cc6eac2c1ca7398a678bf # v3.0.0
+    - name: tflint init
+      run: tflint --init
+    - name: tflint validate
+      run: tflint -f compact --module
