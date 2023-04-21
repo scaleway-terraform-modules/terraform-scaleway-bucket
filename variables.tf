@@ -59,3 +59,16 @@ variable "lifecycle_rule" {
   type        = any
   default     = {}
 }
+
+variable "website_index" {
+  description = "Website Configuration."
+  type        = string
+  default     = null
+}
+
+variable "policy" {
+  description = ""
+  type        = any
+  default     = null
+}
+
