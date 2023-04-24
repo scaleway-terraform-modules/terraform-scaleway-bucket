@@ -1,9 +1,9 @@
 terraform {
-  required_version = ">= 0.13"
+  required_version = ">= 1.3.7"
   required_providers {
     scaleway = {
       source  = "scaleway/scaleway"
-      version = ">= 2.7.0"
+      version = ">= 2.17.0"
     }
   }
 }

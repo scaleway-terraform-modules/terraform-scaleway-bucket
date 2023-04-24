@@ -51,6 +51,83 @@ module "my_bucket" {
 | <a name="output_bucket_id"></a> [bucket_id](#output_bucket_id) | Unique name of the bucket. |
 <!-- END_TF_DOCS -->
 
+
+## Exemple
+
+```
+## create project
+resource "scaleway_account_project" "project" {
+  name = "infra_as_codetest"
+}
+
+## create bucket
+module "create_bucket" {
+  source = "/opt/terraform/modules/scaleway/terraform-scaleway-bucket"
+
+  name = "testterra"
+  project_id = scaleway_account_project.project.id
+  force_destroy = false
+  versioning_enabled = false
+
+  tags = [ "tag1", "tag2"]
+
+  lifecycle_rule = {
+    id1 = {
+        prefix = "path1/"
+        expiration = "365"
+        transition = "120"
+        storage_class = "GLACIER"
+    }
+    id2 = {
+        prefix = "path2"
+        expiration = "50"
+    }
+    id3 = {
+        prefix = "path3"
+        enabled = false
+        expiration = "1"
+    }
+    id4 = {
+        prefix = "path4"
+        transition = "0"
+        storage_class = "GLACIER"
+    }
+    id5 = {
+        tags = {
+            "tagKey"    = "tagValue"
+            "terraform" = "hashicorp"
+        }
+        abort_incomplete_multipart_upload_days = "30"
+    }
+  }
+
+  website_index = "index.html"
+
+  policy = {
+    Version = "2012-10-17"
+    Id = "MyBucketPolicytest"
+    Statement = [
+      {
+        Sid = "Restriction d'ips"
+        Effect = "Allow"
+        Principal = {
+          SCW = "*"
+        }
+        Action = ["s3:ListBucket", "s3:GetObject"],
+        Resource = ["testterra", "testterra/*"],
+        Condition = {
+          IpAddress = {
+            "aws:SourceIp" = "10.11.12.0/24"
+          }
+        }
+      }
+    ]
+  }
+}
+
+```
+
+
 ## Authors
 
 Module is maintained with help from [the community](https://github.com/scaleway-terraform-modules/terraform-scaleway-bucket/graphs/contributors).
