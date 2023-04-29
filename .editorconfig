@@ -2,8 +2,6 @@
 # top-most EditorConfig file
 root = true
 
-with a newline ending every file
-
 [*]
 # Unix-style newlines 
 end_of_line = lf
