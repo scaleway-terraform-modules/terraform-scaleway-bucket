@@ -52,6 +52,11 @@ resource "scaleway_object_bucket" "main" {
   }
 }
 
+moved {
+  from = scaleway_object_bucket_lock_configuration.this
+  to   = scaleway_object_bucket_lock_configuration.main
+}
+
 resource "scaleway_object_bucket_lock_configuration" "main" {
   count = var.versioning_enabled ? 1 : 0
 
