@@ -1,3 +1,8 @@
+moved {
+  from = scaleway_object_bucket.this
+  to   = scaleway_object_bucket.main
+}
+
 resource "scaleway_object_bucket" "main" {
   force_destroy       = var.force_destroy
   name                = var.name
