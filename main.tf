@@ -1,8 +1,3 @@
-moved {
-  from = scaleway_object_bucket.this
-  to   = scaleway_object_bucket.main
-}
-
 resource "scaleway_object_bucket" "main" {
   force_destroy       = var.force_destroy
   name                = var.name
@@ -50,11 +45,6 @@ resource "scaleway_object_bucket" "main" {
       }
     }
   }
-}
-
-moved {
-  from = scaleway_object_bucket_lock_configuration.this
-  to   = scaleway_object_bucket_lock_configuration.main
 }
 
 resource "scaleway_object_bucket_lock_configuration" "main" {
