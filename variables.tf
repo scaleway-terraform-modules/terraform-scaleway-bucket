@@ -1,3 +1,9 @@
+variable "acl" {
+  description = "Canned ACL to apply to the bucket. See AWS (documentation)[https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl] for more information."
+  type        = string
+  default     = "private"
+}
+
 variable "force_destroy" {
   description = "Enable deletion of objects in bucket before destroying, locked objects or under legal hold are also deleted and not recoverable."
   type        = bool
