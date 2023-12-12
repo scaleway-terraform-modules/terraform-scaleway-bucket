@@ -30,6 +30,7 @@ module "my_bucket" {
 | Name | Type |
 |------|------|
 | [scaleway_object_bucket.this](https://registry.terraform.io/providers/scaleway/scaleway/latest/docs/resources/object_bucket) | resource |
+| [scaleway_object_bucket_acl.this](https://registry.terraform.io/providers/scaleway/scaleway/latest/docs/resources/object_bucket_acl) | resource |
 | [scaleway_object_bucket_lock_configuration.this](https://registry.terraform.io/providers/scaleway/scaleway/latest/docs/resources/object_bucket_lock_configuration) | resource |
 
 ## Inputs
@@ -37,6 +38,7 @@ module "my_bucket" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_name"></a> [name](#input_name) | Name of the bucket. | `string` | n/a | yes |
+| <a name="input_acl"></a> [acl](#input_acl) | Canned ACL to apply to the bucket. See AWS (documentation)[https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl] for more information. | `string` | `"private"` | no |
 | <a name="input_force_destroy"></a> [force_destroy](#input_force_destroy) | Enable deletion of objects in bucket before destroying, locked objects or under legal hold are also deleted and not recoverable. | `bool` | `false` | no |
 | <a name="input_project_id"></a> [project_id](#input_project_id) | ID of the project the bucket is associated with. If null, ressources will be created in the default project associated with the key. | `string` | `null` | no |
 | <a name="input_region"></a> [region](#input_region) | Region in which the bucket should be created. Ressource will be created in the region set at the provider level if null. | `string` | `null` | no |

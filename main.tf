@@ -11,6 +11,14 @@ resource "scaleway_object_bucket" "this" {
   }
 }
 
+resource "scaleway_object_bucket_acl" "this" {
+  acl    = var.acl
+  bucket = scaleway_object_bucket.this.name
+
+  project_id = var.project_id
+  region     = var.region
+}
+
 resource "scaleway_object_bucket_lock_configuration" "this" {
   count = var.versioning_enabled ? 1 : 0
 
