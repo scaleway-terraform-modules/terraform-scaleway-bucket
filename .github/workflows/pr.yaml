@@ -1,0 +1,22 @@
+---
+name: Pull Request checks
+
+"on":
+  pull_request:
+    branches:
+      - main
+      - master
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+jobs:
+  check_shell:
+    uses: scaleway-terraform-modules/wokflows/.github/workflows/check_shell.yaml@6daf37405de395030ec647a50c4e1704628fda51  # v0.0.1
+  check_tf:
+    uses: scaleway-terraform-modules/wokflows/.github/workflows/check_tf.yaml@6daf37405de395030ec647a50c4e1704628fda51  # v0.0.1
+    secrets: inherit
+  check_yaml:
+    uses: scaleway-terraform-modules/wokflows/.github/workflows/check_yaml.yaml@6daf37405de395030ec647a50c4e1704628fda51  # v0.0.1
