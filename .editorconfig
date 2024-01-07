@@ -2,13 +2,19 @@
 # top-most EditorConfig file
 root = true
 
+## Default settings
 [*]
-# Unix-style newlines 
+### Unix-style newlines
 end_of_line = lf
-# Always end with an empty new line
+### Always end with an empty new line
 insert_final_newline = true
-# Set default charset to utf-8
+### Set default charset to utf-8
 charset = utf-8
-# Indent with 2 spaces
+### Indent with 2 spaces
 indent_style = space
 indent_size = 2
+
+## Markdown files
+[*.md]
+### Do not wrap long lines
+max_line_length = off

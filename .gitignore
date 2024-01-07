@@ -28,3 +28,6 @@ override.tf.json
 # to change depending on the environment.
 *.tfvars
 *.tfvars.json
+
+# MacOS File
+**/.DS_Store
