@@ -34,3 +34,11 @@ resource "scaleway_object_bucket_lock_configuration" "this" {
     }
   }
 }
+
+resource "scaleway_object_bucket_policy" "this" {
+  count = var.policy != null ? 1 : 0
+
+  bucket     = scaleway_object_bucket.this.name
+  policy     = jsonencode(var.policy)
+  project_id = var.project_id
+}

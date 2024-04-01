@@ -32,6 +32,7 @@ module "my_bucket" {
 | [scaleway_object_bucket.this](https://registry.terraform.io/providers/scaleway/scaleway/latest/docs/resources/object_bucket) | resource |
 | [scaleway_object_bucket_acl.this](https://registry.terraform.io/providers/scaleway/scaleway/latest/docs/resources/object_bucket_acl) | resource |
 | [scaleway_object_bucket_lock_configuration.this](https://registry.terraform.io/providers/scaleway/scaleway/latest/docs/resources/object_bucket_lock_configuration) | resource |
+| [scaleway_object_bucket_policy.this](https://registry.terraform.io/providers/scaleway/scaleway/latest/docs/resources/object_bucket_policy) | resource |
 
 ## Inputs
 
@@ -40,6 +41,7 @@ module "my_bucket" {
 | <a name="input_name"></a> [name](#input_name) | Name of the bucket. | `string` | n/a | yes |
 | <a name="input_acl"></a> [acl](#input_acl) | Canned ACL to apply to the bucket. See AWS (documentation)[https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl] for more information. | `string` | `"private"` | no |
 | <a name="input_force_destroy"></a> [force_destroy](#input_force_destroy) | Enable deletion of objects in bucket before destroying, locked objects or under legal hold are also deleted and not recoverable. | `bool` | `false` | no |
+| <a name="input_policy"></a> [policy](#input_policy) | Policy document. For more information about building AWS IAM policy documents with Terraform, see the [AWS IAM Policy Document Guide](https://learn.hashicorp.com/tutorials/terraform/aws-iam-policy). | ```object({ Version = string, Id = string Statement = list(object({ Sid = string Effect = string Principal = string Action = list(string) Resource = list(string) })) })``` | `null` | no |
 | <a name="input_project_id"></a> [project_id](#input_project_id) | ID of the project the bucket is associated with. If null, ressources will be created in the default project associated with the key. | `string` | `null` | no |
 | <a name="input_region"></a> [region](#input_region) | Region in which the bucket should be created. Ressource will be created in the region set at the provider level if null. | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input_tags) | A list of tags for the bucket. As the Scaleway console does not support key/value tags, tags are written with the format value/value. | `list(string)` | `[]` | no |
