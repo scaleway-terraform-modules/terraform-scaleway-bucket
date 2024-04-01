@@ -68,3 +68,9 @@ variable "versioning_lock_configuration" {
     years = null,
   }
 }
+
+variable "website_index" {
+  description = "Website Configuration."
+  type        = string
+  default     = null
+}
