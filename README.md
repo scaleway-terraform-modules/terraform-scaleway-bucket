@@ -33,6 +33,7 @@ module "my_bucket" {
 | [scaleway_object_bucket_acl.this](https://registry.terraform.io/providers/scaleway/scaleway/latest/docs/resources/object_bucket_acl) | resource |
 | [scaleway_object_bucket_lock_configuration.this](https://registry.terraform.io/providers/scaleway/scaleway/latest/docs/resources/object_bucket_lock_configuration) | resource |
 | [scaleway_object_bucket_policy.this](https://registry.terraform.io/providers/scaleway/scaleway/latest/docs/resources/object_bucket_policy) | resource |
+| [scaleway_object_bucket_website_configuration.this](https://registry.terraform.io/providers/scaleway/scaleway/latest/docs/resources/object_bucket_website_configuration) | resource |
 
 ## Inputs
 
@@ -47,6 +48,7 @@ module "my_bucket" {
 | <a name="input_tags"></a> [tags](#input_tags) | A list of tags for the bucket. As the Scaleway console does not support key/value tags, tags are written with the format value/value. | `list(string)` | `[]` | no |
 | <a name="input_versioning_enabled"></a> [versioning_enabled](#input_versioning_enabled) | Enable versioning. Once you version-enable a bucket, it can never return to an unversioned state. You can, however, suspend versioning on that bucket. | `bool` | `false` | no |
 | <a name="input_versioning_lock_configuration"></a> [versioning_lock_configuration](#input_versioning_lock_configuration) | Specifies the Object Lock rule for the bucket. Requires versioning. | ```object({ mode = string, days = optional(number), years = optional(number), })``` | ```{ "days": null, "mode": "GOVERNANCE", "years": null }``` | no |
+| <a name="input_website_index"></a> [website_index](#input_website_index) | Website Configuration. | `string` | `null` | no |
 
 ## Outputs
 
