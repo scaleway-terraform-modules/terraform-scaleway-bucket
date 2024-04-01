@@ -14,9 +14,9 @@ name: Pull Request checks
 
 jobs:
   check_shell:
-    uses: scaleway-terraform-modules/wokflows/.github/workflows/check_shell.yaml@ad3d5eb007b8c61adeabec3544e699670fe2eb5e  # v0.0.4
+    uses: scaleway-terraform-modules/wokflows/.github/workflows/check_shell.yaml@ff71d4893d66ef32ceb402e84f97543648e81d3a  # v0.0.5
   check_tf:
-    uses: scaleway-terraform-modules/wokflows/.github/workflows/check_tf.yaml@ad3d5eb007b8c61adeabec3544e699670fe2eb5e  # v0.0.4
+    uses: scaleway-terraform-modules/wokflows/.github/workflows/check_tf.yaml@ff71d4893d66ef32ceb402e84f97543648e81d3a  # v0.0.5
     secrets: inherit
   check_yaml:
-    uses: scaleway-terraform-modules/wokflows/.github/workflows/check_yaml.yaml@ad3d5eb007b8c61adeabec3544e699670fe2eb5e  # v0.0.4
+    uses: scaleway-terraform-modules/wokflows/.github/workflows/check_yaml.yaml@ff71d4893d66ef32ceb402e84f97543648e81d3a  # v0.0.5
