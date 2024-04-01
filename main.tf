@@ -5,6 +5,7 @@ resource "scaleway_object_bucket" "this" {
 
   region     = var.region
   project_id = var.project_id
+  tags       = zipmap(var.tags, var.tags)
 
   versioning {
     enabled = var.versioning_enabled
