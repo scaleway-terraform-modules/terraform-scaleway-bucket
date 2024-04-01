@@ -27,6 +27,12 @@ variable "region" {
   default     = null
 }
 
+variable "tags" {
+  description = "A list of tags for the bucket. As the Scaleway console does not support key/value tags, tags are written with the format value/value."
+  type        = list(string)
+  default     = []
+}
+
 variable "versioning_enabled" {
   description = "Enable versioning. Once you version-enable a bucket, it can never return to an unversioned state. You can, however, suspend versioning on that bucket."
   type        = bool
