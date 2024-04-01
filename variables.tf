@@ -15,6 +15,22 @@ variable "name" {
   type        = string
 }
 
+variable "policy" {
+  description = "Policy document. For more information about building AWS IAM policy documents with Terraform, see the [AWS IAM Policy Document Guide](https://learn.hashicorp.com/tutorials/terraform/aws-iam-policy)."
+  type = object({
+    Version = string,
+    Id      = string
+    Statement = list(object({
+      Sid       = string
+      Effect    = string
+      Principal = string
+      Action    = list(string)
+      Resource  = list(string)
+    }))
+  })
+  default = null
+}
+
 variable "project_id" {
   description = "ID of the project the bucket is associated with. If null, ressources will be created in the default project associated with the key."
   type        = string
