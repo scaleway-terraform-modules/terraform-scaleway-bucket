@@ -10,6 +10,25 @@ variable "force_destroy" {
   default     = false
 }
 
+variable "lifecycle_rules" {
+  description = "Define bucket lifecycle configuration"
+  type = list(object({
+    id                                     = string
+    prefix                                 = optional(string)
+    tags                                   = optional(map(string))
+    enabled                                = bool
+    abort_incomplete_multipart_upload_days = optional(number)
+    expiration = optional(list(object({
+      days = string
+    })), [])
+    transition = optional(list(object({
+      days          = number
+      storage_class = string
+    })), [])
+  }))
+  default = []
+}
+
 variable "name" {
   description = "Name of the bucket."
   type        = string
