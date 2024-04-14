@@ -17,14 +17,14 @@ resource "scaleway_object_bucket" "this" {
       abort_incomplete_multipart_upload_days = lifecycle_rule.value["abort_incomplete_multipart_upload_days"]
 
       dynamic "expiration" {
-        for_each = lifecycle_rule.value["expiration"]
+        for_each = lifecycle_rule.value["expiration"] == null ? [] : [lifecycle_rule.value["expiration"]]
         content {
           days = expiration.value["days"]
         }
       }
 
       dynamic "transition" {
-        for_each = lifecycle_rule.value["transition"]
+        for_each = lifecycle_rule.value["transition"] == null ? [] : [lifecycle_rule.value["transition"]]
         content {
           days          = transition.value["days"]
           storage_class = transition.value["storage_class"]

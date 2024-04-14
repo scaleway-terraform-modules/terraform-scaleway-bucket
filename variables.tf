@@ -18,13 +18,13 @@ variable "lifecycle_rules" {
     tags                                   = optional(map(string))
     enabled                                = bool
     abort_incomplete_multipart_upload_days = optional(number)
-    expiration = optional(list(object({
+    expiration = optional(object({
       days = string
-    })), [])
-    transition = optional(list(object({
+    }))
+    transition = optional(object({
       days          = number
       storage_class = string
-    })), [])
+    }))
   }))
   default = []
 }
