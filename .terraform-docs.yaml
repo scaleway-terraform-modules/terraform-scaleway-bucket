@@ -33,6 +33,7 @@ settings:
   hide-empty: true
   html: false
   indent: 2
+  lockfile: false
   required: true
   sensitive: true
   type: true
