@@ -15,10 +15,10 @@ name: Pull Request checks
 jobs:
   shell_check:
     name: "Shell: Syntax checks"
-    uses: scaleway-terraform-modules/workflows/.github/workflows/shell_check.yaml@592cd46d27f23fdb57c1f98a0cdfd2b2305f2a10  # v2.0.2
+    uses: scaleway-terraform-modules/workflows/.github/workflows/shell_check.yaml@e6c667067fe309f87378afcd0b8ef01cf9cf7b7f  # v2.1.1
   tf_module_check:
     name: "Terraform Module: Code checks"
-    uses: scaleway-terraform-modules/workflows/.github/workflows/tf_module_check.yaml@592cd46d27f23fdb57c1f98a0cdfd2b2305f2a10  # v2.0.2
+    uses: scaleway-terraform-modules/workflows/.github/workflows/tf_module_check.yaml@e6c667067fe309f87378afcd0b8ef01cf9cf7b7f  # v2.1.1
   yaml_check:
     name: "YAML: Syntax checks"
-    uses: scaleway-terraform-modules/workflows/.github/workflows/yaml_check.yaml@592cd46d27f23fdb57c1f98a0cdfd2b2305f2a10  # v2.0.2
+    uses: scaleway-terraform-modules/workflows/.github/workflows/yaml_check.yaml@e6c667067fe309f87378afcd0b8ef01cf9cf7b7f  # v2.1.1
