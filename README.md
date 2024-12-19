@@ -57,6 +57,7 @@ module "my_bucket" {
 |------|-------------|
 | <a name="output_bucket_endpoint"></a> [bucket_endpoint](#output_bucket_endpoint) | Endpoint URL of the bucket. |
 | <a name="output_bucket_id"></a> [bucket_id](#output_bucket_id) | Unique name of the bucket. |
+| <a name="output_s3_website_information"></a> [s3_website_information](#output_s3_website_information) | S3 Website information |
 <!-- END_TF_DOCS -->
 
 ## Authors
