@@ -42,7 +42,7 @@ variable "policy" {
     Statement = list(object({
       Sid       = string
       Effect    = string
-      Principal = map(string)
+      Principal = map(any)
       Action    = list(string)
       Resource  = list(string)
     }))
