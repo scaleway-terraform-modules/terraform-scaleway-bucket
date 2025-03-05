@@ -54,9 +54,16 @@ resource "scaleway_object_bucket_lock_configuration" "this" {
 
   rule {
     default_retention {
-      mode  = var.versioning_lock_configuration["mode"]
-      days  = var.versioning_lock_configuration["days"]
-      years = var.versioning_lock_configuration["years"]
+      mode  = var.versioning_lock_configuration.mode
+      days  = var.versioning_lock_configuration.days
+      years = var.versioning_lock_configuration.years
+    }
+  }
+
+  lifecycle {
+    precondition {
+      condition     = var.versioning_enabled ? (var.versioning_lock_configuration.days != null) != (var.versioning_lock_configuration.years != null) : true
+      error_message = "Exactly one of 'days' or 'years' must be provided when versioning is enabled."
     }
   }
 }

@@ -77,12 +77,11 @@ variable "versioning_enabled" {
 variable "versioning_lock_configuration" {
   description = "Specifies the Object Lock rule for the bucket. Requires versioning."
   type = object({
-    mode  = string,
+    mode  = optional(string, "GOVERNANCE"),
     days  = optional(number),
     years = optional(number),
   })
   default = {
-    mode  = "GOVERNANCE"
     days  = null,
     years = null,
   }
