@@ -1,7 +1,7 @@
 resource "scaleway_object_bucket" "this" {
   force_destroy       = var.force_destroy
   name                = var.name
-  object_lock_enabled = var.versioning_enabled
+  object_lock_enabled = var.versioning_lock_configuration != null ? true : false
 
   region     = var.region
   project_id = var.project_id
@@ -34,7 +34,7 @@ resource "scaleway_object_bucket" "this" {
   }
 
   versioning {
-    enabled = var.versioning_enabled
+    enabled = var.versioning_enabled || (var.versioning_lock_configuration != null)
   }
 }
 
@@ -47,7 +47,7 @@ resource "scaleway_object_bucket_acl" "this" {
 }
 
 resource "scaleway_object_bucket_lock_configuration" "this" {
-  count = var.versioning_enabled ? 1 : 0
+  count = var.versioning_lock_configuration != null ? 1 : 0
 
   bucket     = scaleway_object_bucket.this.name
   project_id = var.project_id
