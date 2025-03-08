@@ -69,7 +69,7 @@ variable "tags" {
 }
 
 variable "versioning_enabled" {
-  description = "Enable versioning. Once you version-enable a bucket, it can never return to an unversioned state. You can, however, suspend versioning on that bucket."
+  description = "Enable versioning. Once you version-enable a bucket, it can never return to an unversioned state. You can, however, suspend versioning on that bucket. **Warning:** This variable is ignored when a lock rule is defined."
   type        = bool
   default     = false
 }
@@ -81,10 +81,7 @@ variable "versioning_lock_configuration" {
     days  = optional(number),
     years = optional(number),
   })
-  default = {
-    days  = null,
-    years = null,
-  }
+  default = null
 }
 
 variable "website_index" {
