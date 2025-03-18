@@ -12,8 +12,9 @@ This repository is used to manage object storage buckets on scaleway using terra
 ```hcl
 module "my_bucket" {
   source  = "scaleway-terraform-modules/bucket/scaleway"
-  version = "0.0.1"
+  version = "~> 1"
 
+  name = "my_bucket"
 }
 ```
 
