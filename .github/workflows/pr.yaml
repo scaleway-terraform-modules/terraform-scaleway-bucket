@@ -12,6 +12,8 @@ name: Pull Request checks
       - synchronize
       - ready_for_review
 
+permissions: {}
+
 jobs:
   shell_check:
     name: "Shell: Syntax checks"
