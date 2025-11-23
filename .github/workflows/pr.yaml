@@ -17,10 +17,10 @@ permissions: {}
 jobs:
   shell_check:
     name: "Shell: Syntax checks"
-    uses: scaleway-terraform-modules/workflows/.github/workflows/shell_check.yaml@2705e00e1ea900be1cd4bd6b1e6c8de43fd99fdf  # v2.1.13
+    uses: scaleway-terraform-modules/workflows/.github/workflows/shell_check.yaml@fec3d47e8e7b97a889ef4e5aae12bf0f930171c0  # v2.1.14
   tf_module_check:
     name: "Terraform Module: Code checks"
-    uses: scaleway-terraform-modules/workflows/.github/workflows/tf_module_check.yaml@2705e00e1ea900be1cd4bd6b1e6c8de43fd99fdf  # v2.1.13
+    uses: scaleway-terraform-modules/workflows/.github/workflows/tf_module_check.yaml@fec3d47e8e7b97a889ef4e5aae12bf0f930171c0  # v2.1.14
   yaml_check:
     name: "YAML: Syntax checks"
-    uses: scaleway-terraform-modules/workflows/.github/workflows/yaml_check.yaml@2705e00e1ea900be1cd4bd6b1e6c8de43fd99fdf  # v2.1.13
+    uses: scaleway-terraform-modules/workflows/.github/workflows/yaml_check.yaml@fec3d47e8e7b97a889ef4e5aae12bf0f930171c0  # v2.1.14
