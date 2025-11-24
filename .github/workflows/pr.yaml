@@ -12,7 +12,8 @@ name: Pull Request checks
       - synchronize
       - ready_for_review
 
-permissions: {}
+permissions:
+  contents: read
 
 jobs:
   shell_check:
