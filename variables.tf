@@ -4,6 +4,12 @@ variable "acl" {
   default     = "private"
 }
 
+variable "sse_algorithm" {
+  description = "Server-side encryption algorithm to use. Valid values are `AES256`. This setting only affects newly uploaded objects; existing objects keep their current encryption state."
+  type        = string
+  default     = null
+}
+
 variable "force_destroy" {
   description = "Enable deletion of objects in bucket before destroying, locked objects or under legal hold are also deleted and not recoverable."
   type        = bool

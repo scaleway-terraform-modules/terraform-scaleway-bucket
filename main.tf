@@ -76,6 +76,19 @@ resource "scaleway_object_bucket_policy" "this" {
   project_id = var.project_id
 }
 
+resource "scaleway_object_bucket_server_side_encryption_configuration" "this" {
+  count = var.sse_algorithm != null ? 1 : 0
+
+  bucket = scaleway_object_bucket.this.name
+  # region = var.region
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = var.sse_algorithm
+    }
+  }
+}
+
 resource "scaleway_object_bucket_website_configuration" "this" {
   count = var.website_index != null ? 1 : 0
 

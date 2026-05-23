@@ -4,6 +4,16 @@
 
 This repository is used to manage object storage buckets on scaleway using terraform.
 
+- ### Encryption and existing objects
+
+The `sse_algorithm` setting only governs how *new* objects are stored. Objects already present in the bucket are not re-encrypted when encryption is turned on, and remain encrypted when it is turned off. To converge existing objects to the current policy, rewrite them in place, e.g.:
+
+```sh
+aws --endpoint-url https://s3.<region>.scw.cloud \
+    s3 cp s3://<bucket>/ s3://<bucket>/ \
+    --recursive --metadata-directive REPLACE
+```
+
 ## Usage
 
 - Setup the [scaleway provider](https://www.terraform.io/docs/providers/scaleway/index.html) in your tf file.
@@ -24,7 +34,7 @@ module "my_bucket" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement_terraform) | >= 0.13 |
-| <a name="requirement_scaleway"></a> [scaleway](#requirement_scaleway) | >= 2.10.0 |
+| <a name="requirement_scaleway"></a> [scaleway](#requirement_scaleway) | >= 2.71.0 |
 
 ## Resources
 
@@ -34,6 +44,7 @@ module "my_bucket" {
 | [scaleway_object_bucket_acl.this](https://registry.terraform.io/providers/scaleway/scaleway/latest/docs/resources/object_bucket_acl) | resource |
 | [scaleway_object_bucket_lock_configuration.this](https://registry.terraform.io/providers/scaleway/scaleway/latest/docs/resources/object_bucket_lock_configuration) | resource |
 | [scaleway_object_bucket_policy.this](https://registry.terraform.io/providers/scaleway/scaleway/latest/docs/resources/object_bucket_policy) | resource |
+| [scaleway_object_bucket_server_side_encryption_configuration.this](https://registry.terraform.io/providers/scaleway/scaleway/latest/docs/resources/object_bucket_server_side_encryption_configuration) | resource |
 | [scaleway_object_bucket_website_configuration.this](https://registry.terraform.io/providers/scaleway/scaleway/latest/docs/resources/object_bucket_website_configuration) | resource |
 
 ## Inputs
@@ -47,6 +58,7 @@ module "my_bucket" {
 | <a name="input_policy"></a> [policy](#input_policy) | Policy document. For more information about building AWS IAM policy documents with Terraform, see the [AWS IAM Policy Document Guide](https://learn.hashicorp.com/tutorials/terraform/aws-iam-policy). | ```object({ Version = string, Id = string Statement = list(object({ Sid = string Effect = string Principal = map(any) Action = list(string) Resource = list(string) })) })``` | `null` | no |
 | <a name="input_project_id"></a> [project_id](#input_project_id) | ID of the project the bucket is associated with. If null, ressources will be created in the default project associated with the key. | `string` | `null` | no |
 | <a name="input_region"></a> [region](#input_region) | Region in which the bucket should be created. Ressource will be created in the region set at the provider level if null. | `string` | `null` | no |
+| <a name="input_sse_algorithm"></a> [sse_algorithm](#input_sse_algorithm) | Server-side encryption algorithm to use. Valid values are `AES256`. This setting only affects newly uploaded objects; existing objects keep their current encryption state. | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input_tags) | A list of tags for the bucket. As the Scaleway console does not support key/value tags, tags are written with the format value/value. | `list(string)` | `[]` | no |
 | <a name="input_versioning_enabled"></a> [versioning_enabled](#input_versioning_enabled) | Enable versioning. Once you version-enable a bucket, it can never return to an unversioned state. You can, however, suspend versioning on that bucket. **Warning:** This variable is ignored when a lock rule is defined. | `bool` | `false` | no |
 | <a name="input_versioning_lock_configuration"></a> [versioning_lock_configuration](#input_versioning_lock_configuration) | Specifies the Object Lock rule for the bucket. Requires versioning. | ```object({ mode = optional(string, "GOVERNANCE"), days = optional(number), years = optional(number), })``` | `null` | no |
