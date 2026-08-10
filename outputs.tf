@@ -12,3 +12,8 @@ output "s3_website_information" {
   value       = var.website_index != null ? scaleway_object_bucket_website_configuration.this[0] : null
   description = "S3 Website information"
 }
+
+output "server_side_encryption" {
+  value       = var.sse_algorithm != null ? scaleway_object_bucket_server_side_encryption_configuration.this[0] : null
+  description = "Server-side encryption configuration of the bucket."
+}
