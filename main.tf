@@ -135,7 +135,7 @@ resource "scaleway_object_bucket_policy" "this" {
   count = var.policy != null ? 1 : 0
 
   bucket     = scaleway_object_bucket.this.name
-  policy     = jsonencode(var.policy)
+  policy     = jsonencode(local.policy)
   project_id = var.project_id
 }
 

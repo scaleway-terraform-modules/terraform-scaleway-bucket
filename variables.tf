@@ -131,19 +131,35 @@ variable "name" {
 }
 
 variable "policy" {
-  description = "Policy document. For more information about building AWS IAM policy documents with Terraform, see the [AWS IAM Policy Document Guide](https://learn.hashicorp.com/tutorials/terraform/aws-iam-policy)."
+  description = "Bucket policy document. Each statement's `Principal` is a list of identities: `[\"*\"]` grants access to anyone, otherwise list one or more `user_id:<USER_ID>` and/or `application_id:<APPLICATION_ID>`. The module converts it to the `\"*\"` / `{\"SCW\": ...}` format expected by Scaleway. See the [Scaleway bucket policy documentation](https://www.scaleway.com/en/docs/object-storage/api-cli/bucket-policy/) for more information."
   type = object({
-    Version = string,
+    Version = string
     Id      = string
     Statement = list(object({
       Sid       = string
       Effect    = string
-      Principal = any
+      Principal = list(string)
       Action    = list(string)
       Resource  = list(string)
     }))
   })
   default = null
+
+  validation {
+    condition     = var.policy == null || try(length(var.policy.Statement) > 0, false)
+    error_message = "'policy.Statement' must contain at least one statement."
+  }
+
+  validation {
+    condition = var.policy == null || alltrue([
+      for statement in try(var.policy.Statement, []) :
+      statement.Principal == tolist(["*"]) || (
+        length(statement.Principal) > 0 &&
+        alltrue([for principal in statement.Principal : can(regex("^(user_id|application_id):[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", principal))])
+      )
+    ])
+    error_message = "'policy.Statement[].Principal' must be either [\"*\"] or a non-empty list of `user_id:<UUID>` and/or `application_id:<UUID>`."
+  }
 }
 
 variable "project_id" {

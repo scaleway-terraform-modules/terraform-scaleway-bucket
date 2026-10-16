@@ -30,6 +30,10 @@ Within a single `lifecycle_rules[].expiration` block, `days`, `date` and `expire
 
 Set `acl_grants` (with the required `acl_owner_id`) to grant fine-grained permissions to specific grantees instead of using a canned ACL. When set, `acl_grants` takes precedence and `acl` is ignored.
 
+- ### Bucket policy principals
+
+In `policy.Statement[].Principal`, always provide a list: `["*"]` grants access to anyone, otherwise list one or more `user_id:<USER_ID>` and/or `application_id:<APPLICATION_ID>`. The module renders it as `"*"`, `{"SCW": "<id>"}` or `{"SCW": ["<id>", ...]}` as expected by Scaleway, so that statements with different principal types can be mixed in the same policy.
+
 ## Usage
 
 - Setup the [scaleway provider](https://www.terraform.io/docs/providers/scaleway/index.html) in your tf file.
@@ -44,7 +48,32 @@ module "my_bucket" {
 }
 ```
 
-See the [examples](examples) folder for runnable configurations covering the most common use-cases (static website hosting, lifecycle management, server-side encryption, custom ACL grants).
+See the [examples](examples) folder for runnable configurations covering the most common use-cases (static website hosting, lifecycle management, server-side encryption, custom ACL grants, bucket policy).
+
+## Upgrading from v2 to v3
+
+> [!WARNING]
+> v3 changes the format of `policy.Statement[].Principal`. Configurations using the v2 format fail at `terraform plan` until they are updated.
+
+`Principal` is now always a list of strings. Update each statement as follows:
+
+| v2 | v3 |
+|----|----|
+| `Principal = "*"` | `Principal = ["*"]` |
+| `Principal = { SCW = "user_id:<USER_ID>" }` | `Principal = ["user_id:<USER_ID>"]` |
+| `Principal = { SCW = ["user_id:<USER_ID>", "application_id:<APPLICATION_ID>"] }` | `Principal = ["user_id:<USER_ID>", "application_id:<APPLICATION_ID>"]` |
+
+The module still sends Scaleway the same `"*"` / `{"SCW": ...}` document, so an updated configuration produces no changes on existing bucket policies.
+
+If you upgrade without updating your configuration, `terraform plan` fails with an error ending with:
+
+```text
+attribute "Principal": list of string required.
+```
+
+Also note that in v3:
+
+- `"*"` cannot be combined with IDs in the same `Principal` list, and each ID must match `user_id:<UUID>` or `application_id:<UUID>`.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -79,7 +108,7 @@ See the [examples](examples) folder for runnable configurations covering the mos
 | <a name="input_force_destroy"></a> [force_destroy](#input_force_destroy) | Enable deletion of objects in bucket before destroying, locked objects or under legal hold are also deleted and not recoverable. | `bool` | `false` | no |
 | <a name="input_kms_master_key_id"></a> [kms_master_key_id](#input_kms_master_key_id) | Scaleway Key Manager key ID used for SSE-KMS encryption. The key must be created beforehand, e.g. with a dedicated Key Manager module. Required when `sse_algorithm` is `aws:kms`, must be left unset otherwise. | `string` | `null` | no |
 | <a name="input_lifecycle_rules"></a> [lifecycle_rules](#input_lifecycle_rules) | Define bucket lifecycle configuration | ```list(object({ id = string prefix = optional(string) tags = optional(map(string)) enabled = bool object_size_greater_than = optional(number) object_size_less_than = optional(number) abort_incomplete_multipart_upload_days = optional(number) expiration = optional(object({ date = optional(string) days = optional(number) expired_object_delete_marker = optional(bool) })) transition = optional(object({ date = optional(string) days = optional(number) storage_class = string })) noncurrent_version_expiration = optional(object({ noncurrent_days = optional(number) newer_noncurrent_versions = optional(number) })) noncurrent_version_transitions = optional(list(object({ noncurrent_days = optional(number) newer_noncurrent_versions = optional(number) storage_class = string })), []) }))``` | `[]` | no |
-| <a name="input_policy"></a> [policy](#input_policy) | Policy document. For more information about building AWS IAM policy documents with Terraform, see the [AWS IAM Policy Document Guide](https://learn.hashicorp.com/tutorials/terraform/aws-iam-policy). | ```object({ Version = string, Id = string Statement = list(object({ Sid = string Effect = string Principal = any Action = list(string) Resource = list(string) })) })``` | `null` | no |
+| <a name="input_policy"></a> [policy](#input_policy) | Bucket policy document. Each statement's `Principal` is a list of identities: `["*"]` grants access to anyone, otherwise list one or more `user_id:<USER_ID>` and/or `application_id:<APPLICATION_ID>`. The module converts it to the `"*"` / `{"SCW": ...}` format expected by Scaleway. See the [Scaleway bucket policy documentation](https://www.scaleway.com/en/docs/object-storage/api-cli/bucket-policy/) for more information. | ```object({ Version = string Id = string Statement = list(object({ Sid = string Effect = string Principal = list(string) Action = list(string) Resource = list(string) })) })``` | `null` | no |
 | <a name="input_project_id"></a> [project_id](#input_project_id) | ID of the project the bucket is associated with. If null, resources will be created in the default project associated with the key. | `string` | `null` | no |
 | <a name="input_region"></a> [region](#input_region) | Region in which the bucket should be created. Resource will be created in the region set at the provider level if null. | `string` | `null` | no |
 | <a name="input_sse_algorithm"></a> [sse_algorithm](#input_sse_algorithm) | Server-side encryption algorithm to use. Valid values are `AES256` (SSE-ONE, Scaleway-managed keys) or `aws:kms` (SSE-KMS, customer-managed key). This setting only affects newly uploaded objects; existing objects keep their current encryption state. | `string` | `null` | no |
