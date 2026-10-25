@@ -52,7 +52,7 @@ See the [examples](examples) folder for runnable configurations covering the mos
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement_terraform) | >= 1.11 |
-| <a name="requirement_scaleway"></a> [scaleway](#requirement_scaleway) | >= 2.77.0 |
+| <a name="requirement_scaleway"></a> [scaleway](#requirement_scaleway) | >= 2.79.0 |
 
 ## Resources
 
