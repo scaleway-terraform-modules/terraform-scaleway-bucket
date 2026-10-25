@@ -31,3 +31,7 @@ override.tf.json
 
 # MacOS File
 **/.DS_Store
+
+# IDE configuration
+.idea/
+.vscode/
