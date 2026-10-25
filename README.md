@@ -38,7 +38,7 @@ Set `acl_grants` (with the required `acl_owner_id`) to grant fine-grained permis
 ```hcl
 module "my_bucket" {
   source  = "scaleway-terraform-modules/bucket/scaleway"
-  version = "~> 1"
+  version = "~> 2.0"
 
   name = "my_bucket"
 }
