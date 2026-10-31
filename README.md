@@ -94,7 +94,9 @@ See the [examples](examples) folder for runnable configurations covering the mos
 | Name | Description |
 |------|-------------|
 | <a name="output_bucket_endpoint"></a> [bucket_endpoint](#output_bucket_endpoint) | Endpoint URL of the bucket. |
-| <a name="output_bucket_id"></a> [bucket_id](#output_bucket_id) | Unique name of the bucket. |
+| <a name="output_bucket_id"></a> [bucket_id](#output_bucket_id) | Regional ID of the bucket (`{region}/{name}`). |
+| <a name="output_bucket_name"></a> [bucket_name](#output_bucket_name) | Name of the bucket. |
+| <a name="output_bucket_region"></a> [bucket_region](#output_bucket_region) | Region of the bucket. |
 | <a name="output_s3_website_information"></a> [s3_website_information](#output_s3_website_information) | S3 Website information |
 | <a name="output_server_side_encryption"></a> [server_side_encryption](#output_server_side_encryption) | Server-side encryption configuration of the bucket. |
 <!-- END_TF_DOCS -->
