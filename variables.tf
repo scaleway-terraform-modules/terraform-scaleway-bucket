@@ -73,6 +73,13 @@ variable "cors_rules" {
     max_age_seconds = optional(number)
   }))
   default = []
+
+  validation {
+    condition = alltrue(flatten([
+      for rule in var.cors_rules : [for method in rule.allowed_methods : contains(["GET", "PUT", "POST", "DELETE", "HEAD"], method)]
+    ]))
+    error_message = "'cors_rules[].allowed_methods' values must be among `GET`, `PUT`, `POST`, `DELETE` and `HEAD`."
+  }
 }
 
 variable "force_destroy" {
