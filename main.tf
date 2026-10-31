@@ -100,13 +100,6 @@ resource "scaleway_object_bucket_acl" "this" {
       }
     }
   }
-
-  lifecycle {
-    precondition {
-      condition     = length(var.acl_grants) == 0 || var.acl_owner_id != null
-      error_message = "'acl_owner_id' must be provided when 'acl_grants' is set."
-    }
-  }
 }
 
 resource "scaleway_object_bucket_lock_configuration" "this" {
@@ -120,13 +113,6 @@ resource "scaleway_object_bucket_lock_configuration" "this" {
       mode  = var.versioning_lock_configuration.mode
       days  = var.versioning_lock_configuration.days
       years = var.versioning_lock_configuration.years
-    }
-  }
-
-  lifecycle {
-    precondition {
-      condition     = (var.versioning_lock_configuration.days != null) != (var.versioning_lock_configuration.years != null)
-      error_message = "Exactly one of 'days' or 'years' must be provided in 'versioning_lock_configuration'."
     }
   }
 }
@@ -152,21 +138,6 @@ resource "scaleway_object_bucket_server_side_encryption_configuration" "this" {
       kms_master_key_id = var.kms_master_key_id
     }
     bucket_key_enabled = var.bucket_key_enabled
-  }
-
-  lifecycle {
-    precondition {
-      condition     = var.sse_algorithm != "aws:kms" || var.kms_master_key_id != null
-      error_message = "'kms_master_key_id' must be provided when 'sse_algorithm' is set to 'aws:kms'."
-    }
-    precondition {
-      condition     = var.sse_algorithm == "aws:kms" || var.kms_master_key_id == null
-      error_message = "'kms_master_key_id' can only be set when 'sse_algorithm' is 'aws:kms'."
-    }
-    precondition {
-      condition     = var.sse_algorithm == "aws:kms" || var.bucket_key_enabled == null
-      error_message = "'bucket_key_enabled' can only be set when 'sse_algorithm' is 'aws:kms'."
-    }
   }
 }
 

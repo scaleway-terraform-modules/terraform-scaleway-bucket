@@ -26,6 +26,11 @@ variable "acl_grants" {
     ])
     error_message = "'acl_grants[].grantee_id' is required when 'grantee_type' is `CanonicalUser`, and 'acl_grants[].grantee_uri' is required when 'grantee_type' is `Group`."
   }
+
+  validation {
+    condition     = length(var.acl_grants) == 0 || var.acl_owner_id != null
+    error_message = "'acl_owner_id' must be provided when 'acl_grants' is set."
+  }
 }
 
 variable "acl_owner_id" {
@@ -55,12 +60,27 @@ variable "kms_master_key_id" {
   description = "Scaleway Key Manager key ID used for SSE-KMS encryption. The key must be created beforehand, e.g. with a dedicated Key Manager module. Required when `sse_algorithm` is `aws:kms`, must be left unset otherwise."
   type        = string
   default     = null
+
+  validation {
+    condition     = var.sse_algorithm != "aws:kms" || var.kms_master_key_id != null
+    error_message = "'kms_master_key_id' must be provided when 'sse_algorithm' is set to 'aws:kms'."
+  }
+
+  validation {
+    condition     = var.sse_algorithm == "aws:kms" || var.kms_master_key_id == null
+    error_message = "'kms_master_key_id' can only be set when 'sse_algorithm' is 'aws:kms'."
+  }
 }
 
 variable "bucket_key_enabled" {
   description = "Whether to use a Scaleway Object Bucket Key to reduce the number of calls made to Key Manager when encrypting objects with SSE-KMS. Only applies when `sse_algorithm` is `aws:kms`."
   type        = bool
   default     = null
+
+  validation {
+    condition     = var.sse_algorithm == "aws:kms" || var.bucket_key_enabled == null
+    error_message = "'bucket_key_enabled' can only be set when 'sse_algorithm' is 'aws:kms'."
+  }
 }
 
 variable "cors_rules" {
@@ -189,6 +209,11 @@ variable "versioning_lock_configuration" {
   validation {
     condition     = var.versioning_lock_configuration == null ? true : contains(["GOVERNANCE", "COMPLIANCE"], var.versioning_lock_configuration.mode)
     error_message = "'versioning_lock_configuration.mode' must be one of `GOVERNANCE` or `COMPLIANCE`."
+  }
+
+  validation {
+    condition     = var.versioning_lock_configuration == null ? true : (var.versioning_lock_configuration.days != null) != (var.versioning_lock_configuration.years != null)
+    error_message = "Exactly one of 'days' or 'years' must be provided in 'versioning_lock_configuration'."
   }
 }
 
