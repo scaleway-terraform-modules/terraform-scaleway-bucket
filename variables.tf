@@ -158,6 +158,11 @@ variable "lifecycle_rules" {
     ])
     error_message = "Each 'lifecycle_rules[]' entry must define at least one action: 'expiration', 'transition', 'noncurrent_version_expiration', 'noncurrent_version_transitions' or 'abort_incomplete_multipart_upload_days'."
   }
+
+  validation {
+    condition     = length(distinct([for rule in var.lifecycle_rules : rule.id])) == length(var.lifecycle_rules)
+    error_message = "'lifecycle_rules[].id' values must be unique."
+  }
 }
 
 variable "name" {
