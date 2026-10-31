@@ -18,6 +18,11 @@ output "bucket_region" {
   description = "Region of the bucket."
 }
 
+output "bucket_s3_url" {
+  value       = "s3://${scaleway_object_bucket.this.name}"
+  description = "S3 URL of the bucket (`s3://{name}`), as used by S3 tools together with the regional S3 API endpoint."
+}
+
 output "s3_website_information" {
   value       = var.website_index != null ? scaleway_object_bucket_website_configuration.this[0] : null
   description = "S3 Website information"
