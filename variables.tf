@@ -193,9 +193,14 @@ variable "versioning_lock_configuration" {
 }
 
 variable "website_error_document" {
-  description = "Key of the object to return when a 4XX error occurs while serving the website. Ignored (no website configuration is created) when `website_index` is not set."
+  description = "Key of the object to return when a 4XX error occurs while serving the website. Requires `website_index`."
   type        = string
   default     = null
+
+  validation {
+    condition     = var.website_error_document == null || var.website_index != null
+    error_message = "'website_error_document' requires 'website_index' to be set."
+  }
 }
 
 variable "website_index" {
