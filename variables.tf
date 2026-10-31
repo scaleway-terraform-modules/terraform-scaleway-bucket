@@ -163,6 +163,14 @@ variable "lifecycle_rules" {
     condition     = length(distinct([for rule in var.lifecycle_rules : rule.id])) == length(var.lifecycle_rules)
     error_message = "'lifecycle_rules[].id' values must be unique."
   }
+
+  validation {
+    condition = alltrue([
+      for rule in var.lifecycle_rules :
+      rule.object_size_greater_than == null || rule.object_size_less_than == null ? true : rule.object_size_greater_than < rule.object_size_less_than
+    ])
+    error_message = "In 'lifecycle_rules[]', 'object_size_greater_than' must be lower than 'object_size_less_than'."
+  }
 }
 
 variable "name" {
