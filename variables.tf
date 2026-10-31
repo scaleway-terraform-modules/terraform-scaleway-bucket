@@ -179,7 +179,7 @@ variable "name" {
 }
 
 variable "policy" {
-  description = "Policy document. For more information about building AWS IAM policy documents with Terraform, see the [AWS IAM Policy Document Guide](https://learn.hashicorp.com/tutorials/terraform/aws-iam-policy)."
+  description = "Policy document. For more information about building AWS IAM policy documents with Terraform, see the [AWS IAM Policy Document Guide](https://learn.hashicorp.com/tutorials/terraform/aws-iam-policy). Write every `Principal` as an object, e.g. `{ SCW = \"*\" }` for public access, so that statements can be mixed."
   type = object({
     Version = string,
     Id      = string
