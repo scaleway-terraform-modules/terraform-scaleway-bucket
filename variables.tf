@@ -178,6 +178,11 @@ variable "versioning_lock_configuration" {
     years = optional(number),
   })
   default = null
+
+  validation {
+    condition     = var.versioning_lock_configuration == null ? true : contains(["GOVERNANCE", "COMPLIANCE"], var.versioning_lock_configuration.mode)
+    error_message = "'versioning_lock_configuration.mode' must be one of `GOVERNANCE` or `COMPLIANCE`."
+  }
 }
 
 variable "website_error_document" {
