@@ -150,6 +150,14 @@ variable "lifecycle_rules" {
     ])
     error_message = "In 'lifecycle_rules[].expiration', 'days', 'date' and 'expired_object_delete_marker' are mutually exclusive: set at most one of them per rule."
   }
+
+  validation {
+    condition = alltrue([
+      for rule in var.lifecycle_rules :
+      rule.expiration != null || rule.transition != null || rule.noncurrent_version_expiration != null || length(rule.noncurrent_version_transitions) > 0 || rule.abort_incomplete_multipart_upload_days != null
+    ])
+    error_message = "Each 'lifecycle_rules[]' entry must define at least one action: 'expiration', 'transition', 'noncurrent_version_expiration', 'noncurrent_version_transitions' or 'abort_incomplete_multipart_upload_days'."
+  }
 }
 
 variable "name" {
