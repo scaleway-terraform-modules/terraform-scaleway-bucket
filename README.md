@@ -20,7 +20,7 @@ Set `sse_algorithm` to `AES256` for SSE-ONE: Scaleway generates and manages the 
 
 - ### Static website hosting
 
-Set `website_index` to serve a static website from the bucket, and optionally `website_error_document` for a custom 4XX error page (both are ignored if `website_index` is left unset). Use `cors_rules` to let browsers on other origins fetch objects from the bucket, e.g. to load assets referenced by the website.
+Set `website_index` to serve a static website from the bucket, and optionally `website_error_document` for a custom 4XX error page (it requires `website_index`). Use `cors_rules` to let browsers on other origins fetch objects from the bucket, e.g. to load assets referenced by the website.
 
 - ### Lifecycle rule expiration fields are mutually exclusive
 
@@ -86,7 +86,7 @@ See the [examples](examples) folder for runnable configurations covering the mos
 | <a name="input_tags"></a> [tags](#input_tags) | A list of tags for the bucket. As the Scaleway console does not support key/value tags, tags are written with the format value/value. | `list(string)` | `[]` | no |
 | <a name="input_versioning_enabled"></a> [versioning_enabled](#input_versioning_enabled) | Enable versioning. Once you version-enable a bucket, it can never return to an unversioned state. You can, however, suspend versioning on that bucket. **Warning:** This variable is ignored when a lock rule is defined. | `bool` | `false` | no |
 | <a name="input_versioning_lock_configuration"></a> [versioning_lock_configuration](#input_versioning_lock_configuration) | Specifies the Object Lock rule for the bucket. Requires versioning. | ```object({ mode = optional(string, "GOVERNANCE"), days = optional(number), years = optional(number), })``` | `null` | no |
-| <a name="input_website_error_document"></a> [website_error_document](#input_website_error_document) | Key of the object to return when a 4XX error occurs while serving the website. Ignored (no website configuration is created) when `website_index` is not set. | `string` | `null` | no |
+| <a name="input_website_error_document"></a> [website_error_document](#input_website_error_document) | Key of the object to return when a 4XX error occurs while serving the website. Requires `website_index`. | `string` | `null` | no |
 | <a name="input_website_index"></a> [website_index](#input_website_index) | Key of the object to serve as the homepage when the bucket is used for static website hosting. Set to enable website hosting; leave unset to disable it. | `string` | `null` | no |
 
 ## Outputs
