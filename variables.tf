@@ -4,6 +4,12 @@ variable "acl" {
   default     = "private"
 }
 
+variable "acl_expected_bucket_owner" {
+  description = "Project ID of the expected bucket owner, used to verify the bucket ownership."
+  type        = string
+  default     = null
+}
+
 variable "acl_grants" {
   description = "Custom ACL grants for the bucket, as an alternative to a canned `acl`. Conflicts with `acl`: when set, `acl` is ignored."
   type = list(object({
@@ -37,39 +43,6 @@ variable "acl_owner_id" {
   description = "ID of the bucket owner. Required when `acl_grants` is set."
   type        = string
   default     = null
-}
-
-variable "acl_expected_bucket_owner" {
-  description = "Project ID of the expected bucket owner, used to verify the bucket ownership."
-  type        = string
-  default     = null
-}
-
-variable "sse_algorithm" {
-  description = "Server-side encryption algorithm to use. Valid values are `AES256` (SSE-ONE, Scaleway-managed keys) or `aws:kms` (SSE-KMS, customer-managed key). This setting only affects newly uploaded objects; existing objects keep their current encryption state."
-  type        = string
-  default     = null
-
-  validation {
-    condition     = var.sse_algorithm == null ? true : contains(["AES256", "aws:kms"], var.sse_algorithm)
-    error_message = "'sse_algorithm' must be one of `AES256` or `aws:kms`."
-  }
-}
-
-variable "kms_master_key_id" {
-  description = "Scaleway Key Manager key ID used for SSE-KMS encryption. The key must be created beforehand, e.g. with a dedicated Key Manager module. Required when `sse_algorithm` is `aws:kms`, must be left unset otherwise."
-  type        = string
-  default     = null
-
-  validation {
-    condition     = var.sse_algorithm != "aws:kms" || var.kms_master_key_id != null
-    error_message = "'kms_master_key_id' must be provided when 'sse_algorithm' is set to 'aws:kms'."
-  }
-
-  validation {
-    condition     = var.sse_algorithm == "aws:kms" || var.kms_master_key_id == null
-    error_message = "'kms_master_key_id' can only be set when 'sse_algorithm' is 'aws:kms'."
-  }
 }
 
 variable "bucket_key_enabled" {
@@ -106,6 +79,22 @@ variable "force_destroy" {
   description = "Enable deletion of objects in bucket before destroying, locked objects or under legal hold are also deleted and not recoverable."
   type        = bool
   default     = false
+}
+
+variable "kms_master_key_id" {
+  description = "Scaleway Key Manager key ID used for SSE-KMS encryption. The key must be created beforehand, e.g. with a dedicated Key Manager module. Required when `sse_algorithm` is `aws:kms`, must be left unset otherwise."
+  type        = string
+  default     = null
+
+  validation {
+    condition     = var.sse_algorithm != "aws:kms" || var.kms_master_key_id != null
+    error_message = "'kms_master_key_id' must be provided when 'sse_algorithm' is set to 'aws:kms'."
+  }
+
+  validation {
+    condition     = var.sse_algorithm == "aws:kms" || var.kms_master_key_id == null
+    error_message = "'kms_master_key_id' can only be set when 'sse_algorithm' is 'aws:kms'."
+  }
 }
 
 variable "lifecycle_rules" {
@@ -204,6 +193,17 @@ variable "region" {
   description = "Region in which the bucket should be created. Resource will be created in the region set at the provider level if null."
   type        = string
   default     = null
+}
+
+variable "sse_algorithm" {
+  description = "Server-side encryption algorithm to use. Valid values are `AES256` (SSE-ONE, Scaleway-managed keys) or `aws:kms` (SSE-KMS, customer-managed key). This setting only affects newly uploaded objects; existing objects keep their current encryption state."
+  type        = string
+  default     = null
+
+  validation {
+    condition     = var.sse_algorithm == null ? true : contains(["AES256", "aws:kms"], var.sse_algorithm)
+    error_message = "'sse_algorithm' must be one of `AES256` or `aws:kms`."
+  }
 }
 
 variable "tags" {
