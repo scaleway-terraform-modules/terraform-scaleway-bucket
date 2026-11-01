@@ -1,24 +1,24 @@
 variable "acl" {
-  description = "Canned ACL to apply to the bucket. See [AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl) for more information. Ignored when `acl_grants` is set."
   type        = string
+  description = "Canned ACL to apply to the bucket. See [AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl) for more information. Ignored when `acl_grants` is set."
   default     = "private"
 }
 
 variable "acl_expected_bucket_owner" {
-  description = "Project ID of the expected bucket owner, used to verify the bucket ownership."
   type        = string
+  description = "Project ID of the expected bucket owner, used to verify the bucket ownership."
   default     = null
 }
 
 variable "acl_grants" {
-  description = "Custom ACL grants for the bucket, as an alternative to a canned `acl`. Conflicts with `acl`: when set, `acl` is ignored."
   type = list(object({
     grantee_id   = optional(string)
     grantee_type = string
     grantee_uri  = optional(string)
     permission   = string
   }))
-  default = []
+  description = "Custom ACL grants for the bucket, as an alternative to a canned `acl`. Conflicts with `acl`: when set, `acl` is ignored."
+  default     = []
 
   validation {
     condition     = alltrue([for grant in var.acl_grants : contains(["CanonicalUser", "Group"], grant.grantee_type)])
@@ -40,14 +40,14 @@ variable "acl_grants" {
 }
 
 variable "acl_owner_id" {
-  description = "ID of the bucket owner. Required when `acl_grants` is set."
   type        = string
+  description = "ID of the bucket owner. Required when `acl_grants` is set."
   default     = null
 }
 
 variable "bucket_key_enabled" {
-  description = "Whether to use a Scaleway Object Bucket Key to reduce the number of calls made to Key Manager when encrypting objects with SSE-KMS. Only applies when `sse_algorithm` is `aws:kms`."
   type        = bool
+  description = "Whether to use a Scaleway Object Bucket Key to reduce the number of calls made to Key Manager when encrypting objects with SSE-KMS. Only applies when `sse_algorithm` is `aws:kms`."
   default     = null
 
   validation {
@@ -57,7 +57,6 @@ variable "bucket_key_enabled" {
 }
 
 variable "cors_rules" {
-  description = "CORS rules applied to the bucket."
   type = list(object({
     allowed_headers = optional(list(string))
     allowed_methods = list(string)
@@ -65,7 +64,8 @@ variable "cors_rules" {
     expose_headers  = optional(list(string))
     max_age_seconds = optional(number)
   }))
-  default = []
+  description = "CORS rules applied to the bucket."
+  default     = []
 
   validation {
     condition = alltrue(flatten([
@@ -76,14 +76,14 @@ variable "cors_rules" {
 }
 
 variable "force_destroy" {
-  description = "Enable deletion of objects in bucket before destroying, locked objects or under legal hold are also deleted and not recoverable."
   type        = bool
+  description = "Enable deletion of objects in bucket before destroying, locked objects or under legal hold are also deleted and not recoverable."
   default     = false
 }
 
 variable "kms_master_key_id" {
-  description = "Scaleway Key Manager key ID used for SSE-KMS encryption. The key must be created beforehand, e.g. with a dedicated Key Manager module. Required when `sse_algorithm` is `aws:kms`, must be left unset otherwise."
   type        = string
+  description = "Scaleway Key Manager key ID used for SSE-KMS encryption. The key must be created beforehand, e.g. with a dedicated Key Manager module. Required when `sse_algorithm` is `aws:kms`, must be left unset otherwise."
   default     = null
 
   validation {
@@ -98,7 +98,6 @@ variable "kms_master_key_id" {
 }
 
 variable "lifecycle_rules" {
-  description = "Define bucket lifecycle configuration"
   type = list(object({
     id                                     = string
     prefix                                 = optional(string)
@@ -127,7 +126,8 @@ variable "lifecycle_rules" {
       storage_class             = string
     })), [])
   }))
-  default = []
+  description = "Define bucket lifecycle configuration"
+  default     = []
 
   validation {
     condition = alltrue([
@@ -163,12 +163,11 @@ variable "lifecycle_rules" {
 }
 
 variable "name" {
-  description = "Name of the bucket."
   type        = string
+  description = "Name of the bucket."
 }
 
 variable "policy" {
-  description = "Policy document. For more information about building AWS IAM policy documents with Terraform, see the [AWS IAM Policy Document Guide](https://learn.hashicorp.com/tutorials/terraform/aws-iam-policy). Write every `Principal` as an object, e.g. `{ SCW = \"*\" }` for public access, so that statements can be mixed."
   type = object({
     Version = string,
     Id      = string
@@ -180,24 +179,25 @@ variable "policy" {
       Resource  = list(string)
     }))
   })
-  default = null
+  description = "Policy document. For more information about building AWS IAM policy documents with Terraform, see the [AWS IAM Policy Document Guide](https://learn.hashicorp.com/tutorials/terraform/aws-iam-policy). Write every `Principal` as an object, e.g. `{ SCW = \"*\" }` for public access, so that statements can be mixed."
+  default     = null
 }
 
 variable "project_id" {
-  description = "ID of the project the bucket is associated with. If null, resources will be created in the default project associated with the key."
   type        = string
+  description = "ID of the project the bucket is associated with. If null, resources will be created in the default project associated with the key."
   default     = null
 }
 
 variable "region" {
-  description = "Region in which the bucket should be created. Resource will be created in the region set at the provider level if null."
   type        = string
+  description = "Region in which the bucket should be created. Resource will be created in the region set at the provider level if null."
   default     = null
 }
 
 variable "sse_algorithm" {
-  description = "Server-side encryption algorithm to use. Valid values are `AES256` (SSE-ONE, Scaleway-managed keys) or `aws:kms` (SSE-KMS, customer-managed key). This setting only affects newly uploaded objects; existing objects keep their current encryption state."
   type        = string
+  description = "Server-side encryption algorithm to use. Valid values are `AES256` (SSE-ONE, Scaleway-managed keys) or `aws:kms` (SSE-KMS, customer-managed key). This setting only affects newly uploaded objects; existing objects keep their current encryption state."
   default     = null
 
   validation {
@@ -207,25 +207,25 @@ variable "sse_algorithm" {
 }
 
 variable "tags" {
-  description = "A list of tags for the bucket. As the Scaleway console does not support key/value tags, tags are written with the format value/value."
   type        = list(string)
+  description = "A list of tags for the bucket. As the Scaleway console does not support key/value tags, tags are written with the format value/value."
   default     = []
 }
 
 variable "versioning_enabled" {
-  description = "Enable versioning. Once you version-enable a bucket, it can never return to an unversioned state. You can, however, suspend versioning on that bucket. **Warning:** This variable is ignored when a lock rule is defined."
   type        = bool
+  description = "Enable versioning. Once you version-enable a bucket, it can never return to an unversioned state. You can, however, suspend versioning on that bucket. **Warning:** This variable is ignored when a lock rule is defined."
   default     = false
 }
 
 variable "versioning_lock_configuration" {
-  description = "Specifies the Object Lock rule for the bucket. Requires versioning."
   type = object({
     mode  = optional(string, "GOVERNANCE"),
     days  = optional(number),
     years = optional(number),
   })
-  default = null
+  description = "Specifies the Object Lock rule for the bucket. Requires versioning."
+  default     = null
 
   validation {
     condition     = var.versioning_lock_configuration == null ? true : contains(["GOVERNANCE", "COMPLIANCE"], var.versioning_lock_configuration.mode)
@@ -239,8 +239,8 @@ variable "versioning_lock_configuration" {
 }
 
 variable "website_error_document" {
-  description = "Key of the object to return when a 4XX error occurs while serving the website. Requires `website_index`."
   type        = string
+  description = "Key of the object to return when a 4XX error occurs while serving the website. Requires `website_index`."
   default     = null
 
   validation {
@@ -250,7 +250,7 @@ variable "website_error_document" {
 }
 
 variable "website_index" {
-  description = "Key of the object to serve as the homepage when the bucket is used for static website hosting. Set to enable website hosting; leave unset to disable it."
   type        = string
+  description = "Key of the object to serve as the homepage when the bucket is used for static website hosting. Set to enable website hosting; leave unset to disable it."
   default     = null
 }
