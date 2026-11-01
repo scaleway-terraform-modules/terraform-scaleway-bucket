@@ -42,11 +42,13 @@ Write every `policy.Statement[].Principal` as an object, including for public ac
 ```hcl
 module "my_bucket" {
   source  = "scaleway-terraform-modules/bucket/scaleway"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
-  name = "my_bucket"
+  name = "my-bucket"
 }
 ```
+
+Upgrading from v2? Read the breaking changes in the [v3.0.0 release notes](https://github.com/scaleway-terraform-modules/terraform-scaleway-bucket/releases/tag/v3.0.0) first.
 
 See the [examples](examples) folder for runnable configurations covering the most common use-cases (static website hosting, lifecycle management, server-side encryption, custom ACL grants, bucket policy).
 
