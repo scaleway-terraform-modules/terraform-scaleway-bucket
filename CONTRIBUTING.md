@@ -33,7 +33,7 @@ To send us a pull request, please:
 2. Modify the source; please focus on the specific change you are contributing. If you also reformat all the code, it will be hard for us to focus on your change.
 3. Ensure local tests pass.
 4. Commit to your fork using clear commit messages.
-5. Send us a pull request, answering any default questions in the pull request interface.
+5. Send us a pull request, using the pull request template and filling in every section. GitHub's web interface pre-fills the template, but the GitHub CLI and other tools don't: with the CLI, run `gh pr create --template pull_request_template.md`, or `gh pr create --web` to finish in the browser. If the repository has no `.github/pull_request_template.md`, use the organization's default one from the [`.github` repository](https://github.com/scaleway-terraform-modules/.github/blob/main/.github/pull_request_template.md).
 6. Pay attention to any automated CI failures reported in the pull request, and stay involved in the conversation.
 
 GitHub provides additional document on [forking a repository](https://help.github.com/articles/fork-a-repo/) and
