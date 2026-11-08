@@ -10,6 +10,7 @@ AI contributions are welcome, provided they are explicit.
 1. **Disclose.** Any commit that contains work produced or modified by an AI must say so with a `Co-Authored-By:` trailer (see below). The pull request description must also mention that AI was used and for what.
 2. **The operator is responsible.** The person running the agent is the author of the contribution and is accountable for it: they must have reviewed and understood every change, tested it, and checked it can be published under this repository's license. "The AI wrote it" is never an answer to a review comment.
 3. **Do not act on the operator's behalf without approval.** Do not push, open pull requests, comment on issues or merge unless the operator explicitly asked for it.
+4. **Use the pull request template.** Command-line tools don't apply it (`gh pr create --body`, `--fill` and `--body-file` all skip it), so build the description yourself from the repository's `.github/pull_request_template.md`, or from the [organization's default](https://github.com/scaleway-terraform-modules/.github/blob/main/.github/pull_request_template.md) if the repository has none. Keep its headings, fill in every section including "AI usage", and replace the HTML comments with content. Tick only the boxes that are true (e.g. a check you actually ran), and leave the responsibility checkbox unticked: it is the operator's to tick.
 
 ## Commit trailer
 
